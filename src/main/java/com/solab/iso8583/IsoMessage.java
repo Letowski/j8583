@@ -583,7 +583,7 @@ public class IsoMessage {
     }
 
     /** Returns true is the message contains all the specified fields.
-     * A convenience for m.hasField(x) && m.hasField(y) && m.hasField(z) && ... */
+     * A convenience for m.hasField(x) and m.hasField(y) and m.hasField(z) and ... */
     public boolean hasEveryField(int... idx) {
         for (int i : idx) {
             if (!hasField(i)) {
