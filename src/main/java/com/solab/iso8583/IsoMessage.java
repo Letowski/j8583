@@ -222,6 +222,50 @@ public class IsoMessage {
         IsoValue field = new IsoValue(fields[index].getType(), value, fields[index].getLength());
         return this.setField(index, field);
     }
+    public String dumpString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("----------IsoMessage-------------\n");
+        stringBuilder.append("type=").append(type).append("\n");
+        stringBuilder.append("binary=").append(binary).append("\n");
+        stringBuilder.append("isoHeader=").append(isoHeader).append("\n");
+        stringBuilder.append("etx=").append(etx).append("\n");
+        stringBuilder.append("forceb2=").append(forceb2).append("\n");
+        stringBuilder.append("binBitmap=").append(binBitmap).append("\n");
+        stringBuilder.append("forceStringEncoding=").append(forceStringEncoding).append("\n");
+        stringBuilder.append("encoding=").append(encoding).append("\n");
+        stringBuilder.append("----------bitmap-------------\n");
+
+        StringBuilder bitmap = new StringBuilder();
+
+        //Bitmap
+        BitSet bs = createBitmapBitSet();
+        int pos = 0;
+        int lim = bs.size() / 4;
+        for (int i = 0; i < lim; i++) {
+            int nibble = 0;
+            if (bs.get(pos++))
+                nibble |= 8;
+            if (bs.get(pos++))
+                nibble |= 4;
+            if (bs.get(pos++))
+                nibble |= 2;
+            if (bs.get(pos++))
+                nibble |= 1;
+            bitmap.append(HEX[nibble]);
+        }
+
+        stringBuilder.append(bitmap);
+        stringBuilder.append("\n----------fields-------------\n");
+
+        for (int i = 2; i < 129; i++) {
+            IsoValue<?> v = fields[i];
+            if (v != null) {
+                stringBuilder.append(i).append("=").append(v.getValue()).append("\n");
+            }
+        }
+        stringBuilder.append("----------IsoMessage-end-------------\n");
+        return stringBuilder.toString();
+    }
     /*---------------------------------------*/
 
     /** Stored the field in the specified index. The first field is the secondary bitmap and has index 1,
