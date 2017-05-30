@@ -193,6 +193,7 @@ public class IsoMessage {
         throw new RuntimeException(typeName+" is not acceptable for "+fields[index].getType()+" (field="+index+")");
     }
     public IsoMessage setValue(int index, String value) {
+        value = value == null ? "" : value;
         checkIndex(index);
         checkTypes(index, "String", new IsoType[]{
                 IsoType.ALPHA,
@@ -205,6 +206,7 @@ public class IsoMessage {
         return this.setField(index, field);
     }
     public IsoMessage setValue(int index, Long value) {
+        value = value == null ? 0 : value;
         checkIndex(index);
         checkTypes(index, "Long", new IsoType[]{
                 IsoType.NUMERIC,
@@ -215,6 +217,7 @@ public class IsoMessage {
         return this.setField(index, field);
     }
     public IsoMessage setValue(int index, Integer value) {
+        value = value == null ? 0 : value;
         checkIndex(index);
         checkTypes(index, "Long", new IsoType[]{
                 IsoType.NUMERIC,
